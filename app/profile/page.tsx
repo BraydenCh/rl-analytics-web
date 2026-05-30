@@ -59,7 +59,7 @@ export default async function ProfilePage() {
             </div>
           ) : (
             <a
-              href="http://127.0.0.1:8000/auth/login/steam"
+              href="http://localhost:8000/auth/login/steam"
               className="block w-full text-center bg-blue-600 hover:bg-blue-700 py-3 rounded-md font-semibold transition-colors"
             >
               Link Steam Account
