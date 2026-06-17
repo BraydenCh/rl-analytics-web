@@ -25,7 +25,7 @@ export default async function ProfilePage() {
   // 1. Map Epic's platform IDs to your website's database fields and URLs
   const PLATFORM_MAP: Record<string, { dbField: string; name: string; loginRoute: string; color: string }> = {
     steam: { dbField: 'steam_id', name: 'Steam', loginRoute: 'steam', color: 'text-gray-300' },
-    xbl: { dbField: 'xbl_id', name: 'Xbox Live', loginRoute: 'xbox', color: 'text-green-400' },
+    xbl: { dbField: 'dingo_id', name: 'Xbox Live', loginRoute: 'xbox', color: 'text-green-400' },
     psn: { dbField: 'psn_id', name: 'PlayStation Network', loginRoute: 'playstation', color: 'text-blue-400' },
     nintendo: { dbField: 'nintendo_id', name: 'Nintendo Switch', loginRoute: 'nintendo', color: 'text-red-400' },
   };
