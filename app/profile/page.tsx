@@ -1,5 +1,7 @@
+// app/profile/page.tsx
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import UnlinkButton from '@/app/components/unlinkbutton'; // Adjust path as needed
 
 export default async function ProfilePage() {
   const cookieStore = await cookies();
@@ -22,7 +24,7 @@ export default async function ProfilePage() {
   const user = await res.json();
   console.log("Fetched user data:", user);
 
-  // 1. Map Epic's platform IDs to your website's database fields and URLs
+  // Mapped the routes to match your backend expectations (e.g., /auth/steam/unlink)
   const PLATFORM_MAP: Record<string, { dbField: string; name: string; loginRoute: string; color: string }> = {
     steam: { dbField: 'steam_id', name: 'Steam', loginRoute: 'steam', color: 'text-gray-300' },
     xbl: { dbField: 'dingo_id', name: 'Xbox Live', loginRoute: 'xbox', color: 'text-green-400' },
@@ -62,28 +64,32 @@ export default async function ProfilePage() {
           </p>
 
           <div className="space-y-3">
-            {/* 2. Only map over the accounts that Epic actually found */}
             {user.linkedAccounts?.map((epicAccount: any) => {
               const platformInfo = PLATFORM_MAP[epicAccount.identityProviderId];
-              
-              // If it's a platform we don't track (like Github or Twitch), ignore it
               if (!platformInfo) return null;
 
-              // 3. Check if your backend says this platform is linked to your website
               const isLinkedToWebsite = !!user[platformInfo.dbField];
 
               return (
                 <div key={epicAccount.identityProviderId}>
                   {isLinkedToWebsite ? (
-                    // IF CONNECTED TO YOUR SITE: Show success state
-                    <div className="flex justify-between items-center bg-gray-900 p-4 rounded border border-green-900/50">
+                    // IF CONNECTED TO YOUR SITE: Show success state + Unlink flow
+                    <div className="flex justify-between items-center bg-gray-900 p-4 rounded border border-green-900/50 transition-all">
                       <div>
                         <span className="font-medium block">{platformInfo.name}</span>
                         <span className="text-xs text-gray-500">Linked as {epicAccount.displayName}</span>
                       </div>
-                      <span className="text-xs font-bold text-green-400 bg-green-400/10 px-2 py-1 rounded">
-                        ✓ Synced
-                      </span>
+                      
+                      {/* Added a wrapper for the badge and the unlink component */}
+                      <div className="flex items-center gap-4">
+                        <span className="text-xs font-bold text-green-400 bg-green-400/10 px-2 py-1 rounded h-fit">
+                          ✓ Synced
+                        </span>
+                        <UnlinkButton 
+                          route={platformInfo.loginRoute} 
+                          platformName={platformInfo.name} 
+                        />
+                      </div>
                     </div>
                   ) : (
                     // IF NOT CONNECTED TO YOUR SITE: Show the prompt to link
@@ -106,7 +112,6 @@ export default async function ProfilePage() {
               );
             })}
 
-            {/* Fallback if they have NO Rocket League platforms linked to Epic */}
             {(!user.linkedAccounts || user.linkedAccounts.length === 0) && (
               <div className="p-4 bg-gray-900/50 rounded border border-gray-700/50 text-center text-sm text-gray-500">
                 No external platforms (Steam, Xbox, PlayStation) found on your Epic Games account.
