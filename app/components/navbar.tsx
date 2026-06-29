@@ -46,11 +46,16 @@ export default async function Navbar() {
               RL Telemetry
             </Link>
             
-            {/* Show Dashboard link only if logged in */}
+            {/* Show Dashboard & Upload links only if logged in */}
             {session && (
-              <Link href="/profile" className="text-sm font-medium text-gray-300 hover:text-white">
-                Dashboard
-              </Link>
+              <>
+                <Link href="/profile" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                  Dashboard
+                </Link>
+                <Link href="/upload_replay" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                  Upload Replay
+                </Link>
+              </>
             )}
           </div>
 
