@@ -28,6 +28,7 @@ export default function ReplayUpload() {
         method: 'POST',
         // If your API requires auth headers, add them here:
         // headers: { 'Authorization': `Bearer ${token}` },
+        credentials: 'include',
         body: formData,
       });
 
