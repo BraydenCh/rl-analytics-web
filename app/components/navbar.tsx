@@ -50,7 +50,7 @@ export default async function Navbar() {
             {session && (
               <>
                 <Link href="/profile" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
-                  Dashboard
+                  Player Profile
                 </Link>
                 <Link href="/upload_replay" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
                   Upload Replay
