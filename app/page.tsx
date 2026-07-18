@@ -115,8 +115,8 @@ export default async function Home({
                     <div className="p-4 flex-grow grid grid-cols-2 gap-4 text-sm border-t border-gray-700">
                       {/* Blue Team */}
                       <div>
-                        {blueTeam.map((p: any) => (
-                          <div key={p.player_id} className="truncate text-gray-300 mb-1">
+                        {blueTeam.map((p: any, index: number) => (
+                          <div key={p.player_id || `blue-bot-${p.username}-${index}`} className="truncate text-gray-300 mb-1">
                             <span className="text-blue-500 mr-1">•</span>
                             {p.username}
                           </div>
@@ -125,8 +125,8 @@ export default async function Home({
                       
                       {/* Orange Team */}
                       <div className="text-right">
-                        {orangeTeam.map((p: any) => (
-                          <div key={p.player_id} className="truncate text-gray-300 mb-1">
+                        {orangeTeam.map((p: any, index: number) => (
+                          <div key={p.player_id || `orange-bot-${p.username}-${index}`} className="truncate text-gray-300 mb-1">
                             {p.username}
                             <span className="text-orange-500 ml-1">•</span>
                           </div>
