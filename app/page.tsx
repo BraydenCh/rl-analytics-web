@@ -92,8 +92,11 @@ export default async function Home({
                 const orangeTeam = match.player_match_stats?.filter((p: any) => p.team === 1) || [];
 
                 return (
-                  <div key={match.id} className="bg-gray-800 rounded-xl border border-gray-700 shadow-md hover:border-indigo-500 transition-colors flex flex-col">
-                    
+                    <Link 
+                      href={`/match/${match.id}`} 
+                      key={match.id} 
+                      className="bg-gray-800 rounded-xl border border-gray-700 shadow-md hover:border-indigo-500 transition-colors flex flex-col cursor-pointer block"
+                    >                    
                     {/* Card Header */}
                     <div className="p-4 border-b border-gray-700 bg-gray-800/50 rounded-t-xl">
                       <h3 className="font-bold text-lg truncate" title={match.name}>
@@ -133,7 +136,7 @@ export default async function Home({
                         ))}
                       </div>
                     </div>
-                  </div>
+                    </Link>
                 );
               })}
             </div>
