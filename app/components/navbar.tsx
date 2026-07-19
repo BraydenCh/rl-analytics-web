@@ -49,8 +49,8 @@ export default async function Navbar() {
             {/* Show Dashboard & Upload links only if logged in */}
             {session && (
               <>
-                <Link href="/profile" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
-                  Player Profile
+                <Link href="/profile/matches" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                  Match History
                 </Link>
                 <Link href="/upload_replay" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
                   Upload Replay
@@ -64,10 +64,9 @@ export default async function Navbar() {
             {session ? (
               // IF LOGGED IN: Show Profile/Logout options
               <div className="flex items-center gap-4">
-                <span className="text-sm text-green-400 font-medium px-3 py-1 bg-green-400/10 rounded-full border border-green-400/20">
-                  Authenticated
-                </span>
-                
+                <Link href="/profile" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                  Profile
+                </Link>
                 {/* Point the form action to our Server Action function */}
                 <form action={logoutAction}>
                   <button type="submit" className="text-sm font-medium text-gray-400 hover:text-white transition-colors cursor-pointer">
