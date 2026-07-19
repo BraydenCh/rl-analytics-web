@@ -26,7 +26,7 @@ export default async function ProfilePage() {
 
   // Mapped the routes to match your backend expectations (e.g., /auth/steam/unlink)
   const PLATFORM_MAP: Record<string, { dbField: string; name: string; loginRoute: string; color: string }> = {
-    steam: { dbField: 'steam_id', name: 'Steam', loginRoute: 'steam', color: 'text-gray-300' },
+    steam: { dbField: 'Steam_id', name: 'Steam', loginRoute: 'steam', color: 'text-gray-300' },
     xbl: { dbField: 'dingo_id', name: 'Xbox Live', loginRoute: 'xbox', color: 'text-green-400' },
     psn: { dbField: 'psn_id', name: 'PlayStation Network', loginRoute: 'playstation', color: 'text-blue-400' },
     nintendo: { dbField: 'nintendo_id', name: 'Nintendo Switch', loginRoute: 'nintendo', color: 'text-red-400' },
