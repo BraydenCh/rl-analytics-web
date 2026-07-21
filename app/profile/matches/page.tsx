@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import CareerStats from '@/app/components/careerstats';
 
 // Pass the session token securely to FastAPI
 async function getMyMatches(sessionToken: string) {
@@ -21,6 +22,24 @@ async function getMyMatches(sessionToken: string) {
   }
 }
 
+async function getMyStats(sessionToken: string) {
+  try {
+    const res = await fetch('http://127.0.0.1:8000/my_stats', {
+      headers: {
+        Cookie: `epic_session=${sessionToken}`
+      },
+      cache: 'no-store' // Always fetch fresh for personal data
+    });
+    
+    if (!res.ok) return {};
+    const data = await res.json();
+    return data.stats || {};
+  } catch (error) {
+    console.error("Failed to fetch personal stats:", error);
+    return {};
+  }
+}
+
 export default async function MyMatchesPage({
   searchParams,
 }: {
@@ -36,6 +55,8 @@ export default async function MyMatchesPage({
 
   // 2. Fetch Data & Handle Pagination
   const matches = await getMyMatches(session);
+  const stats = await getMyStats(session);
+  console.log(stats); // Debugging: Log stats to the server console
   const resolvedParams = await searchParams;
   
   const currentPage = parseInt(resolvedParams?.page || '1', 10);
@@ -47,24 +68,36 @@ export default async function MyMatchesPage({
     currentPage * itemsPerPage
   );
 
-  return (
+return (
     <main className="flex min-h-screen flex-col items-center p-8 bg-gray-900 text-white font-sans">
       <div className="w-full max-w-6xl mt-8">
         
-        {/* Header */}
-        <div className="mb-8 border-b border-gray-700 pb-4 flex justify-between items-end">
-          <div>
-            <Link href="/profile" className="text-indigo-400 hover:text-indigo-300 font-medium text-sm flex items-center gap-1 mb-4">
-              &larr; Back to Dashboard
-            </Link>
-            <h1 className="text-4xl font-extrabold text-white">My Replays</h1>
-            <p className="text-gray-400 mt-2">Every match tied to your connected accounts.</p>
+        {/* ================= 1. HEADER & BACK BUTTON ================= */}
+        <div className="mb-8">
+          <Link href="/profile" className="text-indigo-400 hover:text-indigo-300 font-medium text-sm flex items-center gap-1 mb-6 transition-colors">
+            &larr; Back to Dashboard
+          </Link>
+          <div className="border-b border-gray-800 pb-6 flex justify-between items-end">
+            <div>
+              <h1 className="text-4xl font-extrabold text-white">Player Overview</h1>
+              <p className="text-gray-400 mt-2">Your lifetime statistics and match history.</p>
+            </div>
           </div>
-          <span className="text-gray-400 text-sm font-bold bg-gray-800 px-4 py-2 rounded-lg border border-gray-700">
-            Total Matches: {matches.length}
-          </span>
         </div>
 
+        {/* ================= 2. CAREER STATS SECTION ================= */}
+        {/* This container uses a darker, glassy background to visually contrast against the gray-800 match cards below */}
+        <div className="mb-20 bg-black/30 backdrop-blur-md p-8 rounded-3xl border border-gray-800 shadow-2xl">
+           <CareerStats stats={stats} />
+        </div>
+
+        {/* ================= 3. MATCH FEED SECTION ================= */}
+        <div className="mb-8 border-b border-gray-700 pb-4 flex justify-between items-end">
+            <h2 className="text-3xl font-bold text-white">Match History</h2>
+            <span className="text-gray-400 text-sm font-bold bg-gray-800/80 px-4 py-2 rounded-lg border border-gray-700 shadow-sm">
+                Total Matches: {matches.length}
+            </span>
+        </div>
         {/* Match Feed */}
         {matches.length === 0 ? (
           <div className="text-center text-gray-500 py-16 bg-gray-800 rounded-xl border border-gray-700">
