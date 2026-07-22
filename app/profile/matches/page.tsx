@@ -4,9 +4,9 @@ import Link from 'next/link';
 import CareerStats from '@/app/components/careerstats';
 
 // Pass the session token securely to FastAPI
-async function getMyMatches(sessionToken: string) {
+async function getUserMatches(sessionToken: string) {
   try {
-    const res = await fetch('http://127.0.0.1:8000/my_matches', {
+    const res = await fetch('http://127.0.0.1:8000/user_matches', {
       headers: {
         Cookie: `epic_session=${sessionToken}`
       },
@@ -22,9 +22,9 @@ async function getMyMatches(sessionToken: string) {
   }
 }
 
-async function getMyStats(sessionToken: string) {
+async function getUserStats(sessionToken: string) {
   try {
-    const res = await fetch('http://127.0.0.1:8000/my_stats', {
+    const res = await fetch('http://127.0.0.1:8000/user_stats', {
       headers: {
         Cookie: `epic_session=${sessionToken}`
       },
@@ -54,8 +54,8 @@ export default async function MyMatchesPage({
   }
 
   // 2. Fetch Data & Handle Pagination
-  const matches = await getMyMatches(session);
-  const stats = await getMyStats(session);
+  const matches = await getUserMatches(session);
+  const stats = await getUserStats(session);
   console.log(stats); // Debugging: Log stats to the server console
   const resolvedParams = await searchParams;
   
