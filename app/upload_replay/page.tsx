@@ -75,15 +75,29 @@ export default function ReplayUpload() {
     }
   };
 
-  const handleDelete = async (matchId: string) => {
-    // Placeholder for future delete functionality
-    if (confirm("Are you sure you want to delete this replay?")) {
+const handleDelete = async (matchId: string) => {
+    if (confirm("Are you sure you want to delete this replay? This cannot be undone.")) {
       console.log(`Delete requested for ${matchId}`);
-      // await fetch(...DELETE endpoint...)
-      // fetchUploadHistory();
+      
+      try {
+        const res = await fetch(`http://localhost:8000/matches/${matchId}`, {
+          method: 'DELETE',
+          credentials: 'include', // This sends your session cookie to prove you own it
+        });
+
+        if (!res.ok) {
+          throw new Error('Failed to delete match');
+        }
+
+        // Successfully deleted! Refresh the table instantly.
+        fetchUploadHistory();
+        
+      } catch (error) {
+        console.error("Error deleting match:", error);
+        alert("Failed to delete the match. Please try again.");
+      }
     }
   };
-
   return (
     <div className="flex flex-col items-center min-h-screen p-8 bg-gray-900 text-white font-sans">
       
