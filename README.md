@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RL Analytics Web
 
-## Getting Started
+Frontend for the Rocket League analytics platform. This app provides Epic login, profile/account linking, replay upload management, and match analytics views powered by a backend API.
 
-First, run the development server:
+## Tech Stack
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS 4
+
+## Features
+
+- Epic Games OAuth login entrypoint
+- Session-aware navigation and server-side auth checks
+- Player profile with linked platform account management
+- Replay upload flow with upload history and delete actions
+- Public recent match feed with pagination
+- Personal match history with career statistics
+- Detailed per-match team/player stat breakdown
+
+## Routes
+
+- `/` - Home feed (recent uploads)
+- `/login` - Epic login gateway
+- `/profile` - Player profile and platform linking
+- `/profile/matches` - Personal match history + career stats
+- `/upload_replay` - Upload new replay + manage uploaded matches
+- `/match/[id]` - Detailed match page
+- `/api/auth/epic` - Starts Epic OAuth redirect flow
+
+## Prerequisites
+
+1. Node.js 20+ recommended
+2. npm
+3. Backend API running locally on `http://localhost:8000` (or `http://127.0.0.1:8000`)
+
+The frontend currently calls backend endpoints directly at localhost (for example: `user_info`, `user_matches`, `upload_replay`, and `matches/:id`).
+
+## Environment Variables
+
+Create a `.env.local` file in the project root with:
+
+```env
+EPIC_CLIENT_ID=your_epic_client_id
+EPIC_REDIRECT_URI=your_epic_redirect_uri
+EPIC_SCOPES=basic_profile
+```
+
+Notes:
+
+- `EPIC_REDIRECT_URI` must match your Epic app configuration.
+- Session and state cookies are handled via Next.js route/server actions.
+
+## Local Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Start dev server
+- `npm run build` - Build for production
+- `npm run start` - Run production server
+- `npm run lint` - Run ESLint
 
-## Learn More
+## Backend Integration Notes
 
-To learn more about Next.js, take a look at the following resources:
+- Auth/session behavior expects an `epic_session` cookie.
+- Logout uses a Next.js server action in the navbar and also attempts a backend logout call.
+- Some pages intentionally use `cache: 'no-store'` for user-specific data.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Troubleshooting
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- If login redirects loop, verify backend auth endpoints and cookie domain/samesite settings.
+- If profile or personal match pages bounce to home/login, confirm `epic_session` is being set by backend callbacks.
+- If match data is empty, confirm backend endpoints are reachable at port `8000`.
