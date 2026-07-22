@@ -8,6 +8,8 @@ interface CareerStatsData {
   avg_goals_per_game: number;
   avg_saves_per_game: number;
   avg_score_per_game: number;
+  avg_assists_per_game: number; // NEW
+  avg_shots_per_game: number;   // NEW
 }
 
 export default function CareerStats({ stats }: { stats: CareerStatsData | null }) {
@@ -34,24 +36,39 @@ export default function CareerStats({ stats }: { stats: CareerStatsData | null }
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         {/* ================= AVERAGES (HIGHLIGHTED) ================= */}
-        <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6 mb-3">
+        {/* Updated to a 5-column grid on desktop to fit all the new metrics perfectly */}
+        <div className="md:col-span-3 grid grid-cols-2 md:grid-cols-5 gap-4 mb-3">
+          
           {/* Avg Score */}
-          <div className="bg-gradient-to-br from-indigo-900/40 to-gray-800 rounded-xl border border-indigo-500/30 p-6 shadow-lg flex flex-col justify-center items-center text-center">
-            <span className="text-sm font-bold text-indigo-400 uppercase tracking-widest mb-2">Avg Score</span>
-            <span className="text-5xl font-black text-white">{stats.avg_score_per_game.toFixed(1)}</span>
+          <div className="bg-gradient-to-br from-indigo-900/40 to-gray-800 rounded-xl border border-indigo-500/30 p-4 shadow-lg flex flex-col justify-center items-center text-center">
+            <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-1 whitespace-nowrap">Avg Score</span>
+            <span className="text-4xl font-black text-white">{stats.avg_score_per_game.toFixed(1)}</span>
           </div>
 
           {/* Avg Goals */}
-          <div className="bg-gradient-to-br from-blue-900/40 to-gray-800 rounded-xl border border-blue-500/30 p-6 shadow-lg flex flex-col justify-center items-center text-center">
-            <span className="text-sm font-bold text-blue-400 uppercase tracking-widest mb-2">Avg Goals</span>
-            <span className="text-5xl font-black text-white">{stats.avg_goals_per_game.toFixed(2)}</span>
+          <div className="bg-gradient-to-br from-blue-900/40 to-gray-800 rounded-xl border border-blue-500/30 p-4 shadow-lg flex flex-col justify-center items-center text-center">
+            <span className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-1 whitespace-nowrap">Avg Goals</span>
+            <span className="text-4xl font-black text-white">{stats.avg_goals_per_game.toFixed(2)}</span>
+          </div>
+
+          {/* Avg Assists (NEW) */}
+          <div className="bg-gradient-to-br from-emerald-900/40 to-gray-800 rounded-xl border border-emerald-500/30 p-4 shadow-lg flex flex-col justify-center items-center text-center">
+            <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-1 whitespace-nowrap">Avg Assists</span>
+            <span className="text-4xl font-black text-white">{stats.avg_assists_per_game.toFixed(2)}</span>
           </div>
 
           {/* Avg Saves */}
-          <div className="bg-gradient-to-br from-orange-900/40 to-gray-800 rounded-xl border border-orange-500/30 p-6 shadow-lg flex flex-col justify-center items-center text-center">
-            <span className="text-sm font-bold text-orange-400 uppercase tracking-widest mb-2">Avg Saves</span>
-            <span className="text-5xl font-black text-white">{stats.avg_saves_per_game.toFixed(2)}</span>
+          <div className="bg-gradient-to-br from-orange-900/40 to-gray-800 rounded-xl border border-orange-500/30 p-4 shadow-lg flex flex-col justify-center items-center text-center">
+            <span className="text-xs font-bold text-orange-400 uppercase tracking-widest mb-1 whitespace-nowrap">Avg Saves</span>
+            <span className="text-4xl font-black text-white">{stats.avg_saves_per_game.toFixed(2)}</span>
           </div>
+
+          {/* Avg Shots (NEW) */}
+          <div className="bg-gradient-to-br from-rose-900/40 to-gray-800 rounded-xl border border-rose-500/30 p-4 shadow-lg flex flex-col justify-center items-center text-center">
+            <span className="text-xs font-bold text-rose-400 uppercase tracking-widest mb-1 whitespace-nowrap">Avg Shots</span>
+            <span className="text-4xl font-black text-white">{stats.avg_shots_per_game.toFixed(2)}</span>
+          </div>
+
         </div>
 
         {/* ================= LIFETIME TOTALS ================= */}
