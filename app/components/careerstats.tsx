@@ -13,11 +13,11 @@ interface CareerStatsData {
 }
 
 export default function CareerStats({ stats }: { stats: CareerStatsData | null }) {
-  if (!stats || stats.total_games === 0) {
+  if (!stats || !stats.total_games || Object.keys(stats).length === 0) {
     return (
       <div className="text-center text-gray-500 py-12 bg-gray-800 rounded-xl border border-gray-700 w-full max-w-6xl mx-auto mt-8">
         <h3 className="text-xl font-bold text-white mb-2">No Stats Available</h3>
-        <p>Upload a replay to start generating your career statistics.</p>
+        <p>Play some matches to start generating your career statistics.</p>
       </div>
     );
   }
