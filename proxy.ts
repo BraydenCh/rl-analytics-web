@@ -7,7 +7,11 @@ export function proxy(request: NextRequest) {
   const hasSession = request.cookies.has('epic_session')
   const { pathname } = request.nextUrl
 
-  const isProtectedRoute = pathname.startsWith('/profile') || pathname.startsWith('/upload')
+  // Protect account page and /profile/me/* but allow public player profiles
+  const isProtectedRoute =
+    pathname === '/profile' ||
+    pathname.startsWith('/profile/me') ||
+    pathname.startsWith('/upload')
 
   if (isProtectedRoute && !hasSession) {
     return NextResponse.redirect(new URL('/', request.url))
