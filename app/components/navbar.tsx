@@ -49,7 +49,7 @@ export default async function Navbar() {
             {/* Show Dashboard & Upload links only if logged in */}
             {session && (
               <>
-                <Link href="/profile/matches" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                <Link href="/profile/me/matches" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
                   Match History
                 </Link>
                 <Link href="/upload_replay" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">

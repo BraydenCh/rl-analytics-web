@@ -4,9 +4,9 @@ import Link from 'next/link';
 import CareerStats from '@/app/components/careerstats';
 
 // Pass the session token securely to FastAPI
-async function getUserMatches(sessionToken: string) {
+async function getMatches(sessionToken: string, id: string) {
   try {
-    const res = await fetch('http://127.0.0.1:8000/user_matches', {
+    const res = await fetch(`http://127.0.0.1:8000/players/${id}/matches`, {
       headers: {
         Cookie: `epic_session=${sessionToken}`
       },
@@ -22,9 +22,9 @@ async function getUserMatches(sessionToken: string) {
   }
 }
 
-async function getUserStats(sessionToken: string) {
+async function getStats(sessionToken: string, id: string) {
   try {
-    const res = await fetch('http://127.0.0.1:8000/user_stats', {
+    const res = await fetch(`http://127.0.0.1:8000/players/${id}/stats`, {
       headers: {
         Cookie: `epic_session=${sessionToken}`
       },
@@ -40,11 +40,16 @@ async function getUserStats(sessionToken: string) {
   }
 }
 
-export default async function MyMatchesPage({
+export default async function MatchesPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ id: string }>;
   searchParams: Promise<{ page?: string }>;
 }) {
+  // 1. Await both promises to get their actual values
+  const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
   // 1. Verify Authentication
   const cookieStore = await cookies();
   const session = cookieStore.get('epic_session')?.value;
@@ -54,15 +59,14 @@ export default async function MyMatchesPage({
   }
 
   // 2. Fetch Data & Handle Pagination
-  const matches = await getUserMatches(session);
-  const stats = await getUserStats(session);
+  const id = resolvedParams.id; // Get the user ID from the route parameters
+
+  const matches = await getMatches(session, id);
+  const stats = await getStats(session, id);
   console.log(stats); // Debugging: Log stats to the server console
-  const resolvedParams = await searchParams;
-  
-  const currentPage = parseInt(resolvedParams?.page || '1', 10);
+  const currentPage = parseInt(resolvedSearchParams?.page || '1', 10);
   const itemsPerPage = 6;
   const totalPages = Math.ceil(matches.length / itemsPerPage);
-  
   const paginatedMatches = matches.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
