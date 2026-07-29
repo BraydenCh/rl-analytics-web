@@ -32,7 +32,7 @@ export default function MatchTable({
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-700/50">
-              {blueTeam.map((p: any, index: number) => (
+              {blueTeam.sort((a, b) => (b.score || 0) - (a.score || 0)).map((p: any, index: number) => (
                 <tr 
                   key={p.player_id || `blue-bot-${p.username}-${index}`} 
                   className={`transition-colors ${p.player_id ? 'hover:bg-gray-700/30 cursor-pointer' : ''}`}
@@ -81,7 +81,7 @@ export default function MatchTable({
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-700/50">
-              {orangeTeam.map((p: any, index: number) => (
+              {orangeTeam.sort((a, b) => (b.score || 0) - (a.score || 0)).map((p: any, index: number) => (
                 <tr 
                   key={p.player_id || `orange-bot-${p.username}-${index}`} 
                   className={`transition-colors ${p.player_id ? 'hover:bg-gray-700/30 cursor-pointer' : ''}`}
