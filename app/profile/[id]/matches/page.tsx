@@ -4,13 +4,11 @@ import Link from 'next/link';
 import CareerStats from '@/app/components/careerstats';
 
 // Pass the session token securely to FastAPI
-async function getMatches(sessionToken: string, id: string) {
+async function getMatches(sessionToken: string | undefined, id: string) {
   try {
-    const res = await fetch(`http://127.0.0.1:8000/players/${id}/matches`, {
-      headers: {
-        Cookie: `epic_session=${sessionToken}`
-      },
-      cache: 'no-store' // Always fetch fresh for personal data
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/players/${id}/matches`, {
+      headers: sessionToken ? { Cookie: `epic_session=${sessionToken}` } : {},
+      cache: 'no-store'
     });
     
     if (!res.ok) return [];
@@ -22,13 +20,11 @@ async function getMatches(sessionToken: string, id: string) {
   }
 }
 
-async function getStats(sessionToken: string, id: string) {
+async function getStats(sessionToken: string | undefined, id: string) {
   try {
-    const res = await fetch(`http://127.0.0.1:8000/players/${id}/stats`, {
-      headers: {
-        Cookie: `epic_session=${sessionToken}`
-      },
-      cache: 'no-store' // Always fetch fresh for personal data
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/players/${id}/stats`, {
+      headers: sessionToken ? { Cookie: `epic_session=${sessionToken}` } : {},
+      cache: 'no-store'
     });
     
     if (!res.ok) return {};
@@ -50,16 +46,14 @@ export default async function MatchesPage({
   // 1. Await both promises to get their actual values
   const resolvedParams = await params;
   const resolvedSearchParams = await searchParams;
-  // 1. Verify Authentication
   const cookieStore = await cookies();
   const session = cookieStore.get('epic_session')?.value;
-
-  if (!session) {
-    redirect('/login'); // Kick them out if they aren't logged in
+  const id = resolvedParams.id;
+  console.log(`Fetching matches and stats for player ID: ${id}`);
+  // Only require a session when viewing your own profile
+  if (id === 'me' && !session) {
+    redirect('/login');
   }
-
-  // 2. Fetch Data & Handle Pagination
-  const id = resolvedParams.id; // Get the user ID from the route parameters
 
   const matches = await getMatches(session, id);
   const stats = await getStats(session, id);

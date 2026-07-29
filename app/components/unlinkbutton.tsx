@@ -13,7 +13,7 @@ export default function UnlinkButton({ route, platformName }: { route: string; p
     setIsUnlinking(true);
     try {
       // Calls your dynamic backend route, e.g., /auth/steam/unlink
-      const res = await fetch(`http://localhost:8000/auth/${route}/unlink`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/${route}/unlink`, {
         method: 'POST',
         credentials: 'include',
       });

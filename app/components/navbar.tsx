@@ -15,7 +15,7 @@ export default async function Navbar() {
     // 1. (Optional) Tell FastAPI the user is logging out
     if (session) {
       try {
-        await fetch("http://localhost:8000/auth/logout", {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
           method: "POST",
           // Send the cookie manually since this is a server-to-server request
           headers: {

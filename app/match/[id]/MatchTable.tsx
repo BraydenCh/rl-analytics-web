@@ -38,6 +38,7 @@ export default function MatchTable({
                   className={`transition-colors ${p.player_id ? 'hover:bg-gray-700/30 cursor-pointer' : ''}`}
                   onClick={() => {
                     if (p.player_id) {
+                      console.log(`Navigating to profile of player ID: ${p.player_id}`);
                       router.push(`/profile/${p.player_id}/matches`);
                     }
                   }}
@@ -86,6 +87,7 @@ export default function MatchTable({
                   className={`transition-colors ${p.player_id ? 'hover:bg-gray-700/30 cursor-pointer' : ''}`}
                   onClick={() => {
                     if (p.player_id) {
+                      console.log("Navigating to profile for player ID:", p.player_id);
                       router.push(`/profile/${p.player_id}/matches`);
                     }
                   }}

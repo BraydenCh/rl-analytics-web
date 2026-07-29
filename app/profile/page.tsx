@@ -11,7 +11,7 @@ export default async function ProfilePage() {
     redirect('/');
   }
 
-  const res = await fetch('http://localhost:8000/user_info', {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user_info`, {
     headers: {
       Cookie: `epic_session=${session.value}`,
     },
@@ -101,7 +101,7 @@ export default async function ProfilePage() {
                         </span>
                       </div>
                       <a
-                        href={`http://localhost:8000/auth/login/${platformInfo.loginRoute}`}
+                        href={`${process.env.NEXT_PUBLIC_API_URL}/auth/login/${platformInfo.loginRoute}`}
                         className="text-sm bg-blue-600 hover:bg-blue-500 text-white font-bold py-1.5 px-4 rounded transition-colors shadow-md"
                       >
                         Link to Site

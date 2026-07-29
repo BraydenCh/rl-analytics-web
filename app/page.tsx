@@ -5,7 +5,7 @@ import Link from 'next/link';
 async function getMatches() {
   try {
     // Replace with your actual deployed API URL in production (e.g., process.env.NEXT_PUBLIC_API_URL)
-    const res = await fetch('http://127.0.0.1:8000/matches/?limit=50', { 
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/matches/?limit=50`, { 
       next: { revalidate: 30 } // Caches the fetch for 30 seconds so your DB isn't spammed
     });
     if (!res.ok) return [];

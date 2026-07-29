@@ -6,7 +6,7 @@ import MatchTable from './MatchTable'; // Import the new client component
 // Fetch the single match from your FastAPI backend
 async function getMatchDetails(id: string) {
   try {
-    const res = await fetch(`http://127.0.0.1:8000/matches/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/matches/${id}`, {
       cache: 'no-store', // Always fetch fresh data for detailed views
     });
     
