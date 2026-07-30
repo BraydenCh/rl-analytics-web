@@ -16,9 +16,7 @@ export default function ReplayUpload() {
   const fetchUploadHistory = async () => {
     try {
       setLoadingHistory(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user_uploads`, {
-        credentials: 'include',
-      });
+      const res = await fetch('/api/uploads');
       if (res.ok) {
         const data = await res.json();
         setUploads(data.matches || []);
@@ -51,9 +49,8 @@ export default function ReplayUpload() {
     formData.append('file', file);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload_replay`, {
+      const response = await fetch('/api/uploads/replay', {
         method: 'POST',
-        credentials: 'include',
         body: formData,
       });
 
@@ -80,9 +77,8 @@ const handleDelete = async (matchId: string) => {
       console.log(`Delete requested for ${matchId}`);
       
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/matches/${matchId}`, {
+        const res = await fetch(`/api/matches/${matchId}`, {
           method: 'DELETE',
-          credentials: 'include', // This sends your session cookie to prove you own it
         });
 
         if (!res.ok) {
