@@ -10,12 +10,14 @@ export async function GET(request: NextRequest) {
 
   const response = NextResponse.redirect(new URL('/', request.url));
 
+  const isProd = process.env.NODE_ENV === 'production';
+
   response.cookies.set('epic_session', session, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'lax',
     path: '/',
-    maxAge: 60 * 60 * 24 * 7, // 1 week — match whatever your FastAPI session expiry is
+    maxAge: 60 * 60 * 24 * 7,
   });
 
   return response;
