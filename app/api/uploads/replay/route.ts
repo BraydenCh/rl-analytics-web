@@ -11,11 +11,14 @@ export async function POST(request: NextRequest) {
 
   const formData = await request.formData();
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload_replay`, {
-    method: 'POST',
-    headers: { Cookie: `epic_session=${session}` },
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload_replay/`, {
+    method: "POST",
+    headers: {
+        "X-Epic-Session": session,
+    },
     body: formData,
-  });
+    })
+  
 
   const data = await res.json();
   return NextResponse.json(data, { status: res.status });
