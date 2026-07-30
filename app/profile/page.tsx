@@ -101,7 +101,7 @@ export default async function ProfilePage() {
                         </span>
                       </div>
                       <a
-                        href={`${process.env.NEXT_PUBLIC_API_URL}/auth/login/${platformInfo.loginRoute}`}
+                        href={`/api/auth/link/${platformInfo.loginRoute}`}
                         className="text-sm bg-blue-600 hover:bg-blue-500 text-white font-bold py-1.5 px-4 rounded transition-colors shadow-md"
                       >
                         Link to Site
