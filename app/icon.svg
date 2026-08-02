@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E1FF"/>
+      <stop offset="100%" stop-color="#0044FF"/>
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF3300"/>
+      <stop offset="100%" stop-color="#FF9900"/>
+    </linearGradient>
+  </defs>
+  <!-- Sharp Geometric C -->
+  <polygon points="104,20 44,20 20,44 20,84 44,108 104,108 104,80 56,80 48,72 48,56 56,48 104,48" fill="url(#blueGrad)" />
+  <!-- Thrust Accent -->
+  <polygon points="8,64 36,40 36,88" fill="url(#orangeGrad)" />
+</svg>
