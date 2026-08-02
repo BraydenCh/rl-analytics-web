@@ -44,7 +44,7 @@ export default async function Navbar() {
           <div className="flex items-center gap-6">
             <Link href="/" className="transition-opacity hover:opacity-80">
               <Image 
-                src="/RlCoreLogo.png" 
+                src="/rl_core_logo.png" 
                 alt="RLCORE.ME Logo" 
                 width={175} 
                 height={50} 
