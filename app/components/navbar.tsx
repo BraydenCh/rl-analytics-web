@@ -45,6 +45,14 @@ export default async function Navbar() {
             <Link href="/" className="font-bold text-xl tracking-tight text-white hover:text-blue-400 transition-colors">
               RL Telemetry
             </Link>
+
+            <Link href="/privacy-policy" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+              Privacy Policy
+            </Link>
+
+            <Link href="/support" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+              Support
+            </Link>
             
             {/* Show Dashboard & Upload links only if logged in */}
             {session && (
