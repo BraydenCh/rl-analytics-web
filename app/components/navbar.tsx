@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-
+import Image from "next/image";
 export default async function Navbar() {
   // Check auth state directly on the server
   const cookieStore = await cookies();
@@ -42,8 +42,15 @@ export default async function Navbar() {
           
           {/* Left Side: Logo & Main Navigation */}
           <div className="flex items-center gap-6">
-            <Link href="/" className="font-bold text-xl tracking-tight text-white hover:text-blue-400 transition-colors">
-              RL Telemetry
+            <Link href="/" className="transition-opacity hover:opacity-80">
+              <Image 
+                src="/RlCoreLogo.png" 
+                alt="RLCORE.ME Logo" 
+                width={175} 
+                height={50} 
+                className="h-10 w-auto" 
+                priority 
+              />
             </Link>
 
             <Link href="/privacy-policy" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
