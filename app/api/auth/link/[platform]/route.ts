@@ -14,10 +14,27 @@ export async function GET(
 
   const { platform } = await params;
 
+  // Normalize/validate provider route segments expected by the backend.
+  const platformAliases: Record<string, string> = {
+    steam: 'steam',
+    xbox: 'xbox',
+    xbl: 'xbox',
+    playstation: 'playstation',
+    psn: 'playstation',
+    nintendo: 'nintendo',
+  };
+
+  const normalizedPlatform = platformAliases[platform];
+  if (!normalizedPlatform) {
+    return NextResponse.redirect(new URL('/profile?error=unsupported_platform', _request.url));
+  }
+
   // Redirect to FastAPI's OAuth initiation, passing the session so FastAPI
   // can associate the callback with the correct user.
-  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/auth/login/${platform}`);
+  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/auth/login/${normalizedPlatform}`);
+  // Send both names so older backend handlers still receive the session.
   url.searchParams.set('token', session);
+  url.searchParams.set('session', session);
 
   return NextResponse.redirect(url.toString());
 }
